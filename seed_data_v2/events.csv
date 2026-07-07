@@ -1,0 +1,9 @@
+event_id,name,club_id,start_date,end_date,discipline,tier,registration_source,source_event_id
+event_101,March Madness - 12 & 20 Ga,club_004,2026-03-29,2026-03-29,skeet,club/regional,nssa_official,169637
+event_102,Spring Open (2026),club_005,2026-04-11,2026-04-11,skeet,club/regional,nssa_official,169913
+event_103,Ice Breaker 2026,club_006,2026-04-26,2026-04-26,skeet,club/regional (Notable),nssa_official,169644
+event_104,Fall River Spring Open,club_007,2026-05-09,2026-05-09,skeet,club/regional,nssa_official,169439
+event_105,North Atlantic,club_002,2026-05-15,2026-05-17,skeet,regional,nssa_official,170517
+event_106,Massachusetts States 2026,[FILL IN HOST CLUB],2026-08-23,2026-08-23,skeet,state,nssa_official,[FILL IN]
+event_107,Wyoming States 2026,[FILL IN HOST CLUB],2026-08-30 [APPROX - CONFIRM],[FILL IN END DATE],skeet,state,nssa_official,[FILL IN]
+event_108,NSSA World Championships 2026,San Antonio TX,[FILL IN - LATE SEPT 2026 APPROX],[FILL IN - EARLY OCT 2026 APPROX],skeet,world,nssa_official,[FILL IN]

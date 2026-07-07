@@ -1,0 +1,8 @@
+round_id,event_id,discipline,gauge,target_count,total_shooters_in_gauge
+round_101_12,event_101,skeet,12ga,100,11
+round_102_12,event_102,skeet,12ga,100,14
+round_102_20,event_102,skeet,20ga,100,14
+round_103_12,event_103,skeet,12ga,100,28
+round_104_12,event_104,skeet,12ga,100,18
+round_105_12,event_105,skeet,12ga,100,22
+round_105_20,event_105,skeet,20ga,100,23

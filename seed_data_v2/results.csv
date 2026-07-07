@@ -1,0 +1,13 @@
+result_id,shooter_id,round_id,score,possible,award_code,placement_plain_english,squad_id
+result_001,shooter_001,round_101_12,96,100,A1,1st place - Class A,
+result_002,shooter_001,round_102_12,90,100,A1,1st place - Class A,
+result_003,shooter_001,round_102_20,88,100,"C2,SS3","2nd place Class C; 3rd place Sub Senior concurrent class",
+result_004,shooter_001,round_103_12,90,100,2MCH,Two-Man Championship (paired with Brett Catlin - see team_results.csv),
+result_005,shooter_001,round_104_12,89,100,SS3,3rd place - Sub Senior concurrent class,
+result_006,shooter_001,round_105_12,96,100,"C1,SSCH","1st place Class C; Sub Senior Champion (concurrent class win); also outscored two-time NSSA World HOA Champion (2022, 2024) Connor Ball, who shot 95/100 in this same field",
+result_007,shooter_001,round_105_20,88,100,"C3,SSRU","3rd place Class C; Sub Senior Runner-up",
+result_008,shooter_002,round_102_12,90,100,"C3,SURU","3rd place Class C; runner-up in 'Sub' concurrent class (exact class name unconfirmed - see README)",
+result_009,shooter_002,round_102_20,84,100,"D2,SURU","2nd place Class D; Sub runner-up",
+result_010,shooter_002,round_103_12,90,100,"2MCH,C3,SU3","Two-Man Championship (paired with Jeff); 3rd place Class C; 3rd Sub",
+result_011,shooter_002,round_105_12,94,100,SUCH,Sub concurrent class Champion,
+result_012,shooter_002,round_105_20,90,100,"D1,SURU","1st place Class D; Sub runner-up",

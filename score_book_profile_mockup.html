@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeffrey Tulman — The Score Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #EDE7D6;
+    --parchment-deep: #E2D9C2;
+    --card: #F6F2E7;
+    --ink: #22281C;
+    --clay: #BD5A2C;
+    --clay-dark: #9C4720;
+    --brass: #9C8552;
+    --brass-light: #C7B384;
+    --field: #37402E;
+    --field-deep: #262E1E;
+    --line: rgba(34, 40, 28, 0.14);
+    --gold-shine: rgba(199, 179, 132, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- Profile header ---------- */
+
+  header.profile-head {
+    background: var(--field-deep);
+    color: var(--parchment);
+    padding: 56px 32px 0;
+  }
+
+  .head-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: start;
+    padding-bottom: 40px;
+  }
+
+  .monogram {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(155deg, var(--brass-light), var(--brass));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 30px;
+    color: var(--field-deep);
+    flex-shrink: 0;
+  }
+
+  .head-name-block .club-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    margin-bottom: 8px;
+  }
+
+  .head-name-block h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 40px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .head-meta {
+    font-size: 14.5px;
+    color: rgba(237,231,214,0.65);
+    display: flex; gap: 18px; flex-wrap: wrap;
+  }
+
+  .class-badges {
+    display: flex; gap: 10px; flex-direction: column; align-items: flex-end;
+  }
+
+  /* ---------- Medal row (sits right under the name) ---------- */
+
+  .medals-row {
+    display: flex;
+    gap: 22px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+
+  .medal-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 74px;
+    text-align: center;
+  }
+
+  .medal-unit svg { width: 58px; height: 80px; }
+
+  .medal-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    line-height: 1.35;
+    color: rgba(237,231,214,0.6);
+    margin-top: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  .medal-unit.feature .medal-caption { color: var(--brass-light); }
+
+  .medal-unit.feature { width: 92px; }
+  .medal-unit.feature svg { width: 74px; height: 100px; }
+
+  .medal-unit.feature { position: relative; }
+  .medal-unit.feature .shine {
+    position: absolute;
+    top: 0; left: 4px; width: 66px; height: 66px;
+    border-radius: 50%;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.55) 48%, transparent 61%);
+    background-size: 260% 260%;
+    background-position: 120% 0%;
+    animation: medalShine 4.5s ease-in-out infinite;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  @keyframes medalShine {
+    0%, 55% { background-position: 120% 0%; }
+    75% { background-position: -20% 100%; }
+    100% { background-position: -20% 100%; }
+  }
+
+  /* Tier 3 — a result, not a championship. Deliberately plain: flat
+     chip, no ribbon, no shine. The restraint here is what makes the
+     tier-1/tier-2 medals above mean something. */
+  .medal-unit.tier3 { width: 58px; }
+  .medal-unit.tier3 svg { width: 42px; height: 48px; margin-top: 30px; }
+  .medal-unit.tier3 .medal-caption { color: rgba(237,231,214,0.42); font-size: 9px; }
+
+  .top-guns-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .gun-chip {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(237,231,214,0.05);
+    border: 1px solid rgba(237,231,214,0.16);
+    border-radius: 4px;
+    padding: 12px 20px 12px 14px;
+  }
+
+  .gun-chip .chip-icon svg {
+    width: 66px; height: auto;
+    color: var(--brass-light);
+    opacity: 0.9;
+  }
+
+  .chip-text .chip-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    opacity: 0.85;
+    margin-bottom: 3px;
+  }
+
+  .chip-text .chip-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--parchment);
+  }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    padding: 7px 13px;
+    border: 1px solid rgba(237,231,214,0.25);
+    border-radius: 3px;
+    color: var(--parchment);
+    white-space: nowrap;
+  }
+  .badge b { color: var(--brass-light); }
+
+  .stat-strip {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(237,231,214,0.14);
+  }
+
+  .stat-cell {
+    padding: 22px 32px;
+    border-right: 1px solid rgba(237,231,214,0.14);
+  }
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--parchment);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(237,231,214,0.55);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Trophy shelf ---------- */
+
+  section.shelf-section { padding: 72px 32px 20px; }
+
+  .section-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 10px;
+  }
+
+  section.shelf-section h2, section.gear-section h2 { 
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    margin: 0 0 36px;
+  }
+
+  .shelf {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding-bottom: 22px;
+  }
+
+  .shelf::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--brass) 8%, var(--brass) 92%, transparent);
+    box-shadow: 0 6px 14px -4px rgba(34,40,28,0.35);
+  }
+
+  .trophy-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .trophy-card.featured {
+    background: linear-gradient(165deg, var(--field), var(--field-deep));
+    color: var(--parchment);
+    border-color: var(--field-deep);
+  }
+
+  .trophy-icon {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--clay);
+    margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  .featured .trophy-icon { background: var(--brass-light); color: var(--field-deep); }
+
+  .trophy-card .event-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brass);
+    margin-bottom: 8px;
+  }
+  .featured .event-name { color: var(--brass-light); }
+
+  .trophy-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0 0 10px;
+    line-height: 1.25;
+  }
+
+  .trophy-card p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(34,40,28,0.65);
+    margin: 0;
+    flex-grow: 1;
+  }
+  .featured p { color: rgba(237,231,214,0.75); }
+
+  .trophy-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .featured .trophy-score { border-top-color: rgba(237,231,214,0.18); }
+  .trophy-score span { font-size: 13px; opacity: 0.55; margin-left: 4px; }
+
+  /* ---------- Gear cabinet ---------- */
+
+  section.gear-section { padding: 76px 32px; }
+
+  .cabinet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .gun-case {
+    position: relative;
+    background: linear-gradient(150deg, var(--field), var(--field-deep));
+    border-radius: 6px;
+    padding: 30px 28px;
+    overflow: hidden;
+    color: var(--parchment);
+  }
+
+  .gun-case::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -30%;
+    width: 60%; height: 100%;
+    background: linear-gradient(115deg, transparent 30%, var(--gold-shine) 48%, transparent 66%);
+    pointer-events: none;
+  }
+
+  .gun-photo-frame {
+    position: relative;
+    aspect-ratio: 2.6 / 1;
+    background: linear-gradient(160deg, rgba(237,231,214,0.08), rgba(237,231,214,0.02));
+    border: 1px dashed rgba(237,231,214,0.28);
+    border-radius: 4px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gun-photo-frame .photo-tag {
+    position: absolute;
+    top: 10px; right: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: rgba(237,231,214,0.45);
+    border: 1px solid rgba(237,231,214,0.25);
+    border-radius: 2px;
+    padding: 2px 6px;
+  }
+
+  .gun-photo-frame svg { width: 72%; height: auto; opacity: 0.55; color: var(--brass-light); }
+
+  .gun-case .gun-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    margin-bottom: 10px;
+  }
+
+  .gun-case h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0 0 6px;
+  }
+
+  .gun-case .gun-sub {
+    font-size: 14px;
+    color: rgba(237,231,214,0.6);
+    margin-bottom: 22px;
+  }
+
+  .gun-stats {
+    display: flex;
+    gap: 22px;
+    border-top: 1px solid rgba(237,231,214,0.16);
+    padding-top: 16px;
+  }
+
+  .gun-stats div { font-size: 12.5px; color: rgba(237,231,214,0.55); }
+  .gun-stats div b { display: block; color: var(--parchment); font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-bottom: 2px; font-weight: 500; }
+
+  /* ---------- Trend ---------- */
+
+  section.trend-section { padding: 0 32px 90px; }
+
+  .trend-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px 34px;
+  }
+
+  .trend-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .trend-top .trend-title { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; }
+  .trend-top .trend-range { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--brass); }
+
+  .trend-chart svg { width: 100%; height: auto; display: block; }
+  .trend-label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; fill: rgba(34,40,28,0.45); }
+  .trend-score-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; fill: var(--field); font-weight: 500; }
+
+  footer { padding: 30px 32px 44px; text-align: center; font-size: 13px; color: rgba(34,40,28,0.45); }
+
+  @media (max-width: 860px) {
+    .head-inner { grid-template-columns: auto 1fr; }
+    .class-badges { grid-column: 1 / -1; flex-direction: row; align-items: flex-start; }
+    .medals-row { justify-content: flex-start; }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat-cell:nth-child(2) { border-right: none; }
+    .shelf { grid-template-columns: 1fr; }
+    .cabinet { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="profile-head">
+  <div class="head-inner">
+    <div class="monogram">JT</div>
+    <div class="head-name-block">
+      <div class="club-eyebrow">Minute Man Sportsmans Club · Massachusetts</div>
+      <h1>Jeffrey Tulman</h1>
+      <div class="head-meta">
+        <span>NSSA #367202</span>
+        <span>Member since Feb 2026</span>
+        <span>2026 Season</span>
+      </div>
+
+      <div class="medals-row">
+        <div class="medal-unit feature">
+          <div class="shine"></div>
+          <svg viewBox="0 0 58 80">
+            <defs>
+              <radialGradient id="gFeature" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#E8D9AE"/>
+                <stop offset="100%" stop-color="#9C8552"/>
+              </radialGradient>
+            </defs>
+            <path d="M 22,40 L 13,78 L 29,67 L 22,40 Z" fill="#C7B384" opacity="0.9"/>
+            <path d="M 36,40 L 45,78 L 29,67 L 36,40 Z" fill="#9C8552" opacity="0.9"/>
+            <path d="M 4,22 Q 10,10 20,16 Q 13,20 12,30 Q 6,30 4,22 Z" fill="#C7B384" opacity="0.75"/>
+            <path d="M 54,22 Q 48,10 38,16 Q 45,20 46,30 Q 52,30 54,22 Z" fill="#C7B384" opacity="0.75"/>
+            <circle cx="29" cy="28" r="25" fill="url(#gFeature)" stroke="#262E1E" stroke-opacity="0.35" stroke-width="1.5"/>
+            <circle cx="29" cy="28" r="19" fill="none" stroke="#262E1E" stroke-opacity="0.25" stroke-width="1"/>
+            <text x="29" y="25" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600" font-size="10" fill="#262E1E">96–95</text>
+            <text x="29" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="#262E1E" opacity="0.75">vs WORLD CH.</text>
+          </svg>
+          <div class="medal-caption">Outscored 2x World HOA Champion Connor Ball</div>
+        </div>
+
+        <div class="medal-unit">
+          <svg viewBox="0 0 58 80">
+            <defs>
+              <radialGradient id="gSS" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#D8CBA0"/>
+                <stop offset="100%" stop-color="#8A754A"/>
+              </radialGradient>
+            </defs>
+            <path d="M 22,40 L 14,76 L 29,66 L 22,40 Z" fill="#BD5A2C" opacity="0.85"/>
+            <path d="M 36,40 L 44,76 L 29,66 L 36,40 Z" fill="#9C4720" opacity="0.85"/>
+            <circle cx="29" cy="27" r="23" fill="url(#gSS)" stroke="#262E1E" stroke-opacity="0.3" stroke-width="1.5"/>
+            <text x="29" y="24" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600" font-size="11" fill="#262E1E">SS</text>
+            <text x="29" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6.5" fill="#262E1E" opacity="0.75">CHAMPION</text>
+          </svg>
+          <div class="medal-caption">Sub Senior Class Champion</div>
+        </div>
+
+        <div class="medal-unit">
+          <svg viewBox="0 0 58 80">
+            <defs>
+              <radialGradient id="g2M" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#D8CBA0"/>
+                <stop offset="100%" stop-color="#8A754A"/>
+              </radialGradient>
+            </defs>
+            <path d="M 22,40 L 14,76 L 29,66 L 22,40 Z" fill="#37402E" opacity="0.85"/>
+            <path d="M 36,40 L 44,76 L 29,66 L 36,40 Z" fill="#262E1E" opacity="0.85"/>
+            <circle cx="29" cy="27" r="23" fill="url(#g2M)" stroke="#262E1E" stroke-opacity="0.3" stroke-width="1.5"/>
+            <text x="29" y="24" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600" font-size="11" fill="#262E1E">2M</text>
+            <text x="29" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="6.5" fill="#262E1E" opacity="0.75">CHAMPIONS</text>
+          </svg>
+          <div class="medal-caption">Two-Man Championship, with Brett Catlin</div>
+        </div>
+
+        <div class="medal-unit tier3">
+          <svg viewBox="0 0 40 46">
+            <defs>
+              <linearGradient id="gT3" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#C7B384"/>
+                <stop offset="100%" stop-color="#8A754A"/>
+              </linearGradient>
+            </defs>
+            <path d="M20,2 L36,12 L36,32 L20,44 L4,32 L4,12 Z" fill="url(#gT3)" stroke="#262E1E" stroke-opacity="0.25" stroke-width="1"/>
+            <text x="20" y="26" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600" font-size="9" fill="#262E1E" opacity="0.8">A×2</text>
+          </svg>
+          <div class="medal-caption">Class A — March Madness &amp; Spring Open</div>
+        </div>
+      </div>
+
+      <div class="top-guns-row">
+        <div class="gun-chip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8,58 C14,42 34,34 58,36 C64,37 68,40 71,45 L120,45 L285,40 C289,40 291,42 291,45 C291,48 289,50 285,50 L120,53 L71,53 C68,58 64,61 58,62 C34,64 14,68 10,80 C6,84 4,72 8,58 Z" fill="currentColor"/>
+              <ellipse cx="82" cy="63" rx="8" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="chip-text">
+            <div class="chip-eyebrow">Competition</div>
+            <div class="chip-name">Beretta SO5</div>
+          </div>
+        </div>
+        <div class="gun-chip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8,58 C14,42 34,34 58,36 C64,37 68,40 71,45 L120,45 L285,40 C289,40 291,42 291,45 C291,48 289,50 285,50 L120,53 L71,53 C68,58 64,61 58,62 C34,64 14,68 10,80 C6,84 4,72 8,58 Z" fill="currentColor"/>
+              <ellipse cx="82" cy="63" rx="8" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="chip-text">
+            <div class="chip-eyebrow">Field</div>
+            <div class="chip-name">Beretta 687 EELL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="class-badges">
+      <div class="badge">12ga <b>Class C</b></div>
+      <div class="badge">20ga <b>Class C</b></div>
+    </div>
+  </div>
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="stat-num">461/500</div>
+      <div class="stat-label">12ga, season to date</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">96</div>
+      <div class="stat-label">career high (12ga)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">5</div>
+      <div class="stat-label">registered events shot</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">3</div>
+      <div class="stat-label">class / championship wins</div>
+    </div>
+  </div>
+</header>
+
+<section class="shelf-section">
+  <div class="wrap">
+    <div class="section-head">The trophy shelf</div>
+    <h2>What the season has earned so far.</h2>
+    <div class="shelf">
+      <div class="trophy-card featured">
+        <div class="trophy-icon">96</div>
+        <div class="event-name">North Atlantic · 05/17/2026</div>
+        <h3>Class C Champion, Sub Senior Champion</h3>
+        <p>Outscored two-time NSSA World HOA Champion Connor Ball (2022, 2024) head-to-head in the same field, 96–95.</p>
+        <div class="trophy-score">96<span>/ 100</span></div>
+      </div>
+      <div class="trophy-card">
+        <div class="trophy-icon">A</div>
+        <div class="event-name">March Madness · 03/29/2026</div>
+        <h3>Class A, 1st Place</h3>
+        <p>First registered event of the season.</p>
+        <div class="trophy-score">96<span>/ 100</span></div>
+      </div>
+      <div class="trophy-card">
+        <div class="trophy-icon">A</div>
+        <div class="event-name">Spring Open · 04/11/2026</div>
+        <h3>Class A, 1st Place</h3>
+        <p>12 gauge main event.</p>
+        <div class="trophy-score">90<span>/ 100</span></div>
+      </div>
+      <div class="trophy-card">
+        <div class="trophy-icon">2M</div>
+        <div class="event-name">Ice Breaker · 04/26/2026</div>
+        <h3>Two-Man Championship</h3>
+        <p>Paired with Brett Catlin.</p>
+        <div class="trophy-score">90<span>/ 100</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gear-section">
+  <div class="wrap">
+    <div class="section-head">The cabinet, in full</div>
+    <h2>Every gun's own record.</h2>
+    <div class="cabinet">
+      <div class="gun-case">
+        <div class="gun-photo-frame">
+          <span class="photo-tag">PHOTO — REPLACE</span>
+          <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8,58 C14,42 34,34 58,36 C64,37 68,40 71,45 L120,45 L285,40 C289,40 291,42 291,45 C291,48 289,50 285,50 L120,53 L71,53 C68,58 64,61 58,62 C34,64 14,68 10,80 C6,84 4,72 8,58 Z" fill="currentColor"/>
+            <ellipse cx="82" cy="63" rx="8" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="gun-eyebrow">Competition</div>
+        <h3>Beretta SO5</h3>
+        <div class="gun-sub">Primary competition gun, 2026 season</div>
+        <div class="gun-stats">
+          <div><b>461/500</b>events shot with</div>
+          <div><b>96</b>best score with</div>
+        </div>
+      </div>
+      <div class="gun-case">
+        <div class="gun-photo-frame">
+          <span class="photo-tag">PHOTO — REPLACE</span>
+          <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8,58 C14,42 34,34 58,36 C64,37 68,40 71,45 L120,45 L285,40 C289,40 291,42 291,45 C291,48 289,50 285,50 L120,53 L71,53 C68,58 64,61 58,62 C34,64 14,68 10,80 C6,84 4,72 8,58 Z" fill="currentColor"/>
+            <ellipse cx="82" cy="63" rx="8" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="gun-eyebrow">Field</div>
+        <h3>Beretta 687 EELL</h3>
+        <div class="gun-sub">Field gun</div>
+        <div class="gun-stats">
+          <div><b>—</b>field days logged</div>
+          <div><b>—</b>add a season</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trend-section">
+  <div class="wrap">
+    <div class="trend-card">
+      <div class="trend-top">
+        <div class="trend-title">12 gauge score trend, 2026 season</div>
+        <div class="trend-range">85–100 shown</div>
+      </div>
+      <div class="trend-chart">
+        <svg viewBox="0 0 900 220" preserveAspectRatio="xMidYMid meet">
+          <line x1="60" y1="20" x2="60" y2="180" stroke="rgba(34,40,28,0.12)" stroke-width="1"/>
+          <line x1="60" y1="180" x2="860" y2="180" stroke="rgba(34,40,28,0.12)" stroke-width="1"/>
+          <text x="50" y="24" text-anchor="end" class="trend-label">100</text>
+          <text x="50" y="102" text-anchor="end" class="trend-label">92</text>
+          <text x="50" y="184" text-anchor="end" class="trend-label">85</text>
+
+          <polyline points="120,32 320,111 480,111 640,124 800,32"
+                    fill="none" stroke="#BD5A2C" stroke-width="2.5"/>
+
+          <circle cx="120" cy="32" r="5" fill="#BD5A2C"/>
+          <circle cx="320" cy="111" r="5" fill="#37402E"/>
+          <circle cx="480" cy="111" r="5" fill="#37402E"/>
+          <circle cx="640" cy="124" r="5" fill="#37402E"/>
+          <circle cx="800" cy="32" r="5" fill="#BD5A2C"/>
+
+          <text x="120" y="16" text-anchor="middle" class="trend-score-label">96</text>
+          <text x="320" y="95" text-anchor="middle" class="trend-score-label">90</text>
+          <text x="480" y="95" text-anchor="middle" class="trend-score-label">90</text>
+          <text x="640" y="146" text-anchor="middle" class="trend-score-label">89</text>
+          <text x="800" y="16" text-anchor="middle" class="trend-score-label">96</text>
+
+          <text x="120" y="204" text-anchor="middle" class="trend-label">MAR MADNESS</text>
+          <text x="320" y="204" text-anchor="middle" class="trend-label">SPRING OPEN</text>
+          <text x="480" y="204" text-anchor="middle" class="trend-label">ICE BREAKER</text>
+          <text x="640" y="204" text-anchor="middle" class="trend-label">FALL RIVER</text>
+          <text x="800" y="204" text-anchor="middle" class="trend-label">N. ATLANTIC</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>The Score Book — a New England Sporting Life project.</footer>
+
+</body>
+</html>

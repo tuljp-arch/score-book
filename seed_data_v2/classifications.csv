@@ -1,0 +1,3 @@
+classification_id,shooter_id,discipline,gauge,class,effective_date,five_event_average
+class_001,shooter_001,skeet,12ga,C,2026 (current rules - see note),0.9220
+class_002,shooter_001,skeet,20ga,C,2026 (current rules - see note),0.8800

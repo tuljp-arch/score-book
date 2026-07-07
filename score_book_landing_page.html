@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Score Book — Your Skeet Record, Kept Properly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #EDE7D6;
+    --parchment-deep: #E2D9C2;
+    --ink: #22281C;
+    --clay: #BD5A2C;
+    --clay-dark: #9C4720;
+    --brass: #9C8552;
+    --field: #37402E;
+    --line: rgba(34, 40, 28, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 32px; }
+
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 32px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.01em;
+  }
+
+  .wordmark span { color: var(--clay); }
+
+  .top nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 28px;
+    opacity: 0.75;
+  }
+
+  .hero {
+    position: relative;
+    padding: 64px 32px 96px;
+    max-width: 1040px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--clay-dark);
+  }
+
+  .lede {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 480px;
+    color: rgba(34,40,28,0.82);
+    margin-bottom: 34px;
+  }
+
+  .cta-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+  .cta-btn {
+    background: var(--clay);
+    color: var(--parchment);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px 28px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .cta-btn:hover { background: var(--clay-dark); }
+  .cta-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  .cta-note {
+    font-size: 13px;
+    color: rgba(34,40,28,0.55);
+  }
+
+  /* Station arc — the signature element. Skeet has 8 real stations shot
+     in sequence; the arc traces that actual field geometry rather than
+     a decorative shape. */
+  .arc-figure {
+    position: relative;
+    aspect-ratio: 1 / 0.92;
+  }
+
+  .arc-figure svg { width: 100%; height: 100%; }
+
+  .station-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    fill: var(--field);
+  }
+
+  section.problem {
+    background: var(--field);
+    color: var(--parchment);
+    padding: 72px 32px;
+  }
+
+  .problem .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+
+  .problem h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.25;
+    margin: 0 0 18px;
+  }
+
+  .problem p {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: rgba(237,231,214,0.78);
+    margin: 0;
+  }
+
+  section.features { padding: 96px 32px 80px; }
+
+  .section-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 12px;
+  }
+
+  section.features h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 34px;
+    max-width: 560px;
+    line-height: 1.15;
+    margin: 0 0 56px;
+  }
+
+  .stations-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .station-card {
+    background: var(--parchment);
+    padding: 30px 26px;
+  }
+
+  .station-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--clay-dark);
+    margin-bottom: 14px;
+  }
+
+  .station-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0 0 10px;
+  }
+
+  .station-card p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: rgba(34,40,28,0.72);
+    margin: 0;
+  }
+
+  section.founding {
+    background: var(--parchment-deep);
+    padding: 80px 32px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .founding .wrap { max-width: 640px; text-align: center; }
+
+  section.founding h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    margin: 0 0 16px;
+  }
+
+  section.founding p {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: rgba(34,40,28,0.75);
+    margin: 0 0 8px;
+  }
+
+  section.signup { padding: 96px 32px 110px; }
+
+  .signup .wrap { max-width: 560px; text-align: center; }
+
+  section.signup h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 30px;
+    margin: 0 0 14px;
+  }
+
+  section.signup p.sub {
+    font-size: 15.5px;
+    color: rgba(34,40,28,0.72);
+    margin: 0 0 34px;
+  }
+
+  form.signup-form {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  form.signup-form input[type="email"] {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: #fff;
+    color: var(--ink);
+    width: 300px;
+    max-width: 100%;
+  }
+
+  form.signup-form input[type="email"]:focus-visible {
+    outline: 2px solid var(--clay);
+    outline-offset: 1px;
+  }
+
+  .form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--field);
+    min-height: 20px;
+  }
+
+  footer {
+    padding: 34px 32px 40px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(34,40,28,0.5);
+  }
+
+  @media (max-width: 780px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .arc-figure { max-width: 320px; margin: 0 auto; order: -1; }
+    h1 { font-size: 38px; }
+    .problem .wrap { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wordmark">The Score<span>·</span>Book</div>
+  <nav>
+    <a href="#features">What it does</a>
+    <a href="#signup">Get early access</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <div class="eyebrow">For competitive skeet shooters — New England, starting now</div>
+    <h1>Every round you've<br>ever shot, kept<br><em>properly</em>.</h1>
+    <p class="lede">Your classification history, your personal bests, and how you stack up against the people you've squadded with — all in one place. Right now it lives on scattered result sheets and in your own memory. It shouldn't.</p>
+    <div class="cta-row">
+      <button class="cta-btn" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Get early access</button>
+      <span class="cta-note">Piloting at Massachusetts States, 8/23</span>
+    </div>
+  </div>
+  <div class="arc-figure" aria-hidden="true">
+    <svg viewBox="0 0 320 300" fill="none">
+      <path d="M 60 260 A 150 150 0 0 1 260 260" stroke="#37402E" stroke-width="1.5" opacity="0.35"/>
+      <line x1="160" y1="130" x2="60" y2="260" stroke="#37402E" stroke-width="1" opacity="0.2"/>
+      <line x1="160" y1="130" x2="260" y2="260" stroke="#37402E" stroke-width="1" opacity="0.2"/>
+      <!-- 8 stations along the arc -->
+      <g>
+        <circle cx="60" cy="260" r="5" fill="#BD5A2C"/>
+        <text x="60" y="282" text-anchor="middle" class="station-label">1</text>
+      </g>
+      <g>
+        <circle cx="78" cy="215" r="5" fill="#9C8552"/>
+        <text x="78" y="203" text-anchor="middle" class="station-label">2</text>
+      </g>
+      <g>
+        <circle cx="108" cy="175" r="5" fill="#9C8552"/>
+        <text x="108" y="163" text-anchor="middle" class="station-label">3</text>
+      </g>
+      <g>
+        <circle cx="148" cy="148" r="5" fill="#9C8552"/>
+        <text x="148" y="136" text-anchor="middle" class="station-label">4</text>
+      </g>
+      <g>
+        <circle cx="192" cy="148" r="5" fill="#9C8552"/>
+        <text x="192" y="136" text-anchor="middle" class="station-label">5</text>
+      </g>
+      <g>
+        <circle cx="232" cy="175" r="5" fill="#9C8552"/>
+        <text x="232" y="163" text-anchor="middle" class="station-label">6</text>
+      </g>
+      <g>
+        <circle cx="262" cy="215" r="5" fill="#9C8552"/>
+        <text x="262" y="203" text-anchor="middle" class="station-label">7</text>
+      </g>
+      <g>
+        <circle cx="260" cy="260" r="5" fill="#BD5A2C"/>
+        <text x="260" y="282" text-anchor="middle" class="station-label">8</text>
+      </g>
+      <!-- center stake -->
+      <circle cx="160" cy="130" r="4" fill="#22281C"/>
+      <text x="160" y="118" text-anchor="middle" class="station-label" opacity="0.6">STAKE</text>
+    </svg>
+  </div>
+</div>
+
+<section class="problem">
+  <div class="wrap">
+    <div>
+      <h2>Right now, your career lives in a filing cabinet you don't control.</h2>
+      <p>Tournament apps handle registration and squadding well. They were never built to be a place you'd want to open between events — no trend lines, no personal record book, no way to see how you've done against the people you actually shoot with.</p>
+    </div>
+    <div>
+      <h2>A serious sport deserves a serious record.</h2>
+      <p>Runners have Strava. Cyclists have it too. Skeet shooters have a printed scoresheet that gets thrown away at the end of the day. This is the place your classification progress, your class wins, and your head-to-head history actually live — permanently, and portably.</p>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="section-head">What it does</div>
+    <h2>Built around the eight stations you already know, not a generic stat dashboard.</h2>
+    <div class="stations-list">
+      <div class="station-card">
+        <div class="station-num">01 — Your record</div>
+        <h3>Every round, permanently</h3>
+        <p>Connect your NSSA account once. Every event you've shot, every gauge, every class — pulled in and kept, not re-entered by hand.</p>
+      </div>
+      <div class="station-card">
+        <div class="station-num">02 — Your trajectory</div>
+        <h3>Classification over time</h3>
+        <p>Watch your class move as your season does. See the shape of your progress, not just this week's number.</p>
+      </div>
+      <div class="station-card">
+        <div class="station-num">03 — Your rivals</div>
+        <h3>Head-to-head history</h3>
+        <p>Pick anyone you've squadded against. See every time your paths have crossed, and who came out ahead.</p>
+      </div>
+      <div class="station-card">
+        <div class="station-num">04 — Your club</div>
+        <h3>Leaderboards worth looking at</h3>
+        <p>A live, shareable event page for your club — built for free, no cost or lock-in, better than a printed scoreboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="founding">
+  <div class="wrap">
+    <h2>Starting small, on purpose.</h2>
+    <p>This is being built and piloted first inside the Massachusetts and New England skeet circuit — Minute Man, Massapoag, Old Colony, Ludlow, and the rest of the clubs already shooting together every season.</p>
+    <p>If that's your circuit too, you'll be among the first people to actually use it.</p>
+  </div>
+</section>
+
+<section class="signup" id="signup">
+  <div class="wrap">
+    <h2>Be one of the first to see it.</h2>
+    <p class="sub">No spam, no mailing list sale. One note when the pilot opens, and an invite if you want in.</p>
+    <form class="signup-form" onsubmit="handleSignup(event)">
+      <input type="email" id="email-input" placeholder="you@email.com" required>
+      <button class="cta-btn" type="submit">Notify me</button>
+    </form>
+    <div class="form-status" id="form-status"></div>
+  </div>
+</section>
+
+<footer>
+  A New England Sporting Life project.
+</footer>
+
+<script>
+  function handleSignup(e) {
+    e.preventDefault();
+    const email = document.getElementById('email-input').value;
+    const status = document.getElementById('form-status');
+    // Placeholder — wire this to a real form backend (Google Form, Formspree,
+    // or the app's own signup endpoint) before sharing this page publicly.
+    status.textContent = "Thanks — you're on the list. We'll be in touch before Mass States.";
+    document.getElementById('email-input').value = '';
+    console.log('Signup captured (not yet wired to a backend):', email);
+  }
+</script>
+
+</body>
+</html>
