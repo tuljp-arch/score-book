@@ -20,6 +20,9 @@ export default async function Home() {
       <p>
         <a href="/head-to-head">Compare two shooters head-to-head →</a>
       </p>
+      <p>
+        <a href="/events">Browse event leaderboards →</a>
+      </p>
     </main>
   );
 }

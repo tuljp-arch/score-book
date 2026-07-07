@@ -1,0 +1,113 @@
+.page {
+  --parchment: #EDE7D6;
+  --card: #F6F2E7;
+  --ink: #22281C;
+  --clay: #BD5A2C;
+  --brass: #9C8552;
+  --brass-light: #C7B384;
+  --field: #37402E;
+  --field-deep: #262E1E;
+  --line: rgba(34, 40, 28, 0.14);
+
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-inter), sans-serif;
+  min-height: 100vh;
+}
+
+.page * { box-sizing: border-box; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 56px 32px; }
+
+.head {
+  background: var(--field-deep);
+  color: var(--parchment);
+  border-radius: 6px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 8px;
+}
+
+.head h1 {
+  font-family: var(--font-fraunces), serif;
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.meta {
+  font-size: 14px;
+  color: rgba(237, 231, 214, 0.65);
+}
+
+.sectionHead {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 32px 0 12px;
+}
+
+.table {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.row:last-child { border-bottom: none; }
+
+.rank {
+  font-family: var(--font-jetbrains-mono), monospace;
+  color: rgba(34, 40, 28, 0.45);
+  font-size: 13px;
+}
+
+.name a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+.name a:hover { text-decoration: underline; }
+
+.award {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  color: var(--clay);
+  text-align: right;
+}
+
+.score {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: right;
+  min-width: 70px;
+}
+.score span { font-size: 11px; opacity: 0.5; font-weight: 400; }
+
+.empty {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 32px;
+  text-align: center;
+  color: rgba(34, 40, 28, 0.6);
+}
