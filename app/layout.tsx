@@ -1,4 +1,5 @@
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google';
+import NavBar from '@/components/NavBar';
 
 export const metadata = {
   title: 'The Score Book',
@@ -35,7 +36,10 @@ const jetbrainsMono = JetBrains_Mono({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }
