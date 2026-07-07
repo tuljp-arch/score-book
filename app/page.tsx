@@ -17,6 +17,9 @@ export default async function Home() {
           <a href="/login?next=/connect">Log in to connect your NSSA account →</a>
         )}
       </p>
+      <p>
+        <a href="/head-to-head">Compare two shooters head-to-head →</a>
+      </p>
     </main>
   );
 }
