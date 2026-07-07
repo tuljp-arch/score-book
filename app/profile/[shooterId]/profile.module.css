@@ -1,0 +1,445 @@
+.page {
+  --parchment: #EDE7D6;
+  --parchment-deep: #E2D9C2;
+  --card: #F6F2E7;
+  --ink: #22281C;
+  --clay: #BD5A2C;
+  --clay-dark: #9C4720;
+  --brass: #9C8552;
+  --brass-light: #C7B384;
+  --field: #37402E;
+  --field-deep: #262E1E;
+  --line: rgba(34, 40, 28, 0.14);
+  --gold-shine: rgba(199, 179, 132, 0.35);
+
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page * { box-sizing: border-box; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+/* ---------- Profile header ---------- */
+
+.profileHead {
+  background: var(--field-deep);
+  color: var(--parchment);
+  padding: 56px 32px 0;
+}
+
+.headInner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: start;
+  padding-bottom: 40px;
+}
+
+.monogram {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(155deg, var(--brass-light), var(--brass));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-fraunces), serif;
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--field-deep);
+  flex-shrink: 0;
+}
+
+.clubEyebrow {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 8px;
+}
+
+.headNameBlock h1 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 600;
+  font-size: 40px;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.headMeta {
+  font-size: 14.5px;
+  color: rgba(237,231,214,0.65);
+  display: flex; gap: 18px; flex-wrap: wrap;
+}
+
+.classBadges {
+  display: flex; gap: 10px; flex-direction: column; align-items: flex-end;
+}
+
+/* ---------- Medal row ---------- */
+
+.medalsRow {
+  display: flex;
+  gap: 22px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.medalUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 74px;
+  text-align: center;
+}
+
+.medalUnit svg { width: 58px; height: 80px; }
+
+.medalCaption {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  line-height: 1.35;
+  color: rgba(237,231,214,0.6);
+  margin-top: 6px;
+  letter-spacing: 0.01em;
+}
+
+.feature .medalCaption { color: var(--brass-light); }
+
+.feature { width: 92px; position: relative; }
+.feature svg { width: 74px; height: 100px; }
+
+.shine {
+  position: absolute;
+  top: 0; left: 4px; width: 66px; height: 66px;
+  border-radius: 50%;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.55) 48%, transparent 61%);
+  background-size: 260% 260%;
+  background-position: 120% 0%;
+  animation: medalShine 4.5s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+@keyframes medalShine {
+  0%, 55% { background-position: 120% 0%; }
+  75% { background-position: -20% 100%; }
+  100% { background-position: -20% 100%; }
+}
+
+.tier3 { width: 58px; }
+.tier3 svg { width: 42px; height: 48px; margin-top: 30px; }
+.tier3 .medalCaption { color: rgba(237,231,214,0.42); font-size: 9px; }
+
+.topGunsRow {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.gunChip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(237,231,214,0.05);
+  border: 1px solid rgba(237,231,214,0.16);
+  border-radius: 4px;
+  padding: 12px 20px 12px 14px;
+}
+
+.gunChip .chipIcon svg {
+  width: 66px; height: auto;
+  color: var(--brass-light);
+  opacity: 0.9;
+}
+
+.chipEyebrow {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  opacity: 0.85;
+  margin-bottom: 3px;
+}
+
+.chipName {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--parchment);
+}
+
+.badge {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12.5px;
+  padding: 7px 13px;
+  border: 1px solid rgba(237,231,214,0.25);
+  border-radius: 3px;
+  color: var(--parchment);
+  white-space: nowrap;
+}
+.badge b { color: var(--brass-light); }
+
+.statStrip {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(237,231,214,0.14);
+}
+
+.statCell {
+  padding: 22px 32px;
+  border-right: 1px solid rgba(237,231,214,0.14);
+}
+.statCell:last-child { border-right: none; }
+
+.statNum {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--parchment);
+}
+.statLabel {
+  font-size: 12px;
+  color: rgba(237,231,214,0.55);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Trophy shelf ---------- */
+
+.shelfSection { padding: 72px 32px 20px; }
+
+.sectionHead {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 10px;
+}
+
+.shelfSection h2, .gearSection h2 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: 28px;
+  margin: 0 0 36px;
+}
+
+.shelf {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding-bottom: 22px;
+}
+
+.shelf::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--brass) 8%, var(--brass) 92%, transparent);
+  box-shadow: 0 6px 14px -4px rgba(34,40,28,0.35);
+}
+
+.trophyCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.trophyCard.featured {
+  background: linear-gradient(165deg, var(--field), var(--field-deep));
+  color: var(--parchment);
+  border-color: var(--field-deep);
+}
+
+.trophyIcon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--clay);
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  color: var(--parchment);
+  font-weight: 500;
+}
+
+.featured .trophyIcon { background: var(--brass-light); color: var(--field-deep); }
+
+.eventName {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brass);
+  margin-bottom: 8px;
+}
+.featured .eventName { color: var(--brass-light); }
+
+.trophyCard h3 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+
+.trophyCard p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(34,40,28,0.65);
+  margin: 0;
+  flex-grow: 1;
+}
+.featured p { color: rgba(237,231,214,0.75); }
+
+.trophyScore {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 22px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.featured .trophyScore { border-top-color: rgba(237,231,214,0.18); }
+.trophyScore span { font-size: 13px; opacity: 0.55; margin-left: 4px; }
+
+/* ---------- Gear cabinet ---------- */
+
+.gearSection { padding: 76px 32px; }
+
+.cabinet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.gunCase {
+  position: relative;
+  background: linear-gradient(150deg, var(--field), var(--field-deep));
+  border-radius: 6px;
+  padding: 30px 28px;
+  overflow: hidden;
+  color: var(--parchment);
+}
+
+.gunCase::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -30%;
+  width: 60%; height: 100%;
+  background: linear-gradient(115deg, transparent 30%, var(--gold-shine) 48%, transparent 66%);
+  pointer-events: none;
+}
+
+.gunPhotoFrame {
+  position: relative;
+  aspect-ratio: 2.6 / 1;
+  background: linear-gradient(160deg, rgba(237,231,214,0.08), rgba(237,231,214,0.02));
+  border: 1px dashed rgba(237,231,214,0.28);
+  border-radius: 4px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photoTag {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: rgba(237,231,214,0.45);
+  border: 1px solid rgba(237,231,214,0.25);
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+
+.gunPhotoFrame svg { width: 72%; height: auto; opacity: 0.55; color: var(--brass-light); }
+
+.gunEyebrow {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 10px;
+}
+
+.gunCase h3 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 600;
+  font-size: 24px;
+  margin: 0 0 6px;
+}
+
+.gunSub {
+  font-size: 14px;
+  color: rgba(237,231,214,0.6);
+  margin-bottom: 22px;
+}
+
+.gunStats {
+  display: flex;
+  gap: 22px;
+  border-top: 1px solid rgba(237,231,214,0.16);
+  padding-top: 16px;
+}
+
+.gunStats div { font-size: 12.5px; color: rgba(237,231,214,0.55); }
+.gunStats div b { display: block; color: var(--parchment); font-family: var(--font-jetbrains-mono), monospace; font-size: 14px; margin-bottom: 2px; font-weight: 500; }
+
+/* ---------- Trend ---------- */
+
+.trendSection { padding: 0 32px 90px; }
+
+.trendCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 32px 34px;
+}
+
+.trendTop {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 24px;
+}
+.trendTitle { font-family: var(--font-fraunces), serif; font-size: 17px; font-weight: 500; }
+.trendRange { font-family: var(--font-jetbrains-mono), monospace; font-size: 12px; color: var(--brass); }
+
+.trendChart svg { width: 100%; height: auto; display: block; }
+.trendLabel { font-family: var(--font-jetbrains-mono), monospace; font-size: 10.5px; fill: rgba(34,40,28,0.45); }
+.trendScoreLabel { font-family: var(--font-jetbrains-mono), monospace; font-size: 12px; fill: var(--field); font-weight: 500; }
+
+.footer { padding: 30px 32px 44px; text-align: center; font-size: 13px; color: rgba(34,40,28,0.45); }
+
+.notFound {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  font-family: var(--font-inter), sans-serif;
+}
+
+@media (max-width: 860px) {
+  .headInner { grid-template-columns: auto 1fr; }
+  .classBadges { grid-column: 1 / -1; flex-direction: row; align-items: flex-start; }
+  .medalsRow { justify-content: flex-start; }
+  .statStrip { grid-template-columns: repeat(2, 1fr); }
+  .statCell:nth-child(2) { border-right: none; }
+  .shelf { grid-template-columns: 1fr; }
+  .cabinet { grid-template-columns: 1fr; }
+}
