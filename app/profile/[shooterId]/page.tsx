@@ -2,6 +2,11 @@ import { getProfileData } from '@/lib/profile-data';
 import styles from './profile.module.css';
 import { FeatureMedalSvg, Tier2MedalSvg, Tier3MedalSvg, GunSilhouetteSvg } from './medals';
 
+// This page reflects whatever a shooter's most recent NSSA import (or an
+// admin's manual edits) wrote to Supabase — it must never serve a cached
+// render, or a re-imported profile keeps showing stale results.
+export const dynamic = 'force-dynamic';
+
 export default async function ProfilePage({ params }: { params: { shooterId: string } }) {
   const profile = await getProfileData(params.shooterId);
 

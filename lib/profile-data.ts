@@ -1,4 +1,5 @@
 import { createServerClient } from '@/lib/supabase-server';
+import { CONCURRENT_CLASS_LABELS, MAIN_CLASS_LETTERS, TEAM_NUMBER_WORDS } from '@/lib/award-codes';
 
 // ---------- Raw row shapes (subset of columns we actually use) ----------
 
@@ -105,28 +106,6 @@ export interface ProfileData {
   gunCases: GunCase[];
   trend: { title: string; rangeLabel: string; points: TrendPoint[] } | null;
 }
-
-const CONCURRENT_CLASS_LABELS: Record<string, string> = {
-  SS: 'Sub Senior',
-  SU: 'Sub',
-  SR: 'Senior',
-  SJ: 'Sub Junior',
-  TS: 'Triple Sub',
-  SSS: 'Sub Sub Senior',
-  J: 'Junior',
-  L: 'Lady',
-  V: 'Veteran',
-};
-
-const MAIN_CLASS_LETTERS = ['AA', 'A', 'B', 'C', 'D', 'E', 'M'];
-
-const TEAM_NUMBER_WORDS: Record<number, string> = {
-  1: 'One',
-  2: 'Two',
-  3: 'Three',
-  4: 'Four',
-  5: 'Five',
-};
 
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return '';
