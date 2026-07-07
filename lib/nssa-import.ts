@@ -8,6 +8,9 @@ import { describeAwardCode } from '@/lib/award-codes';
 // member number, not a password. See CLAUDE_CODE_PROJECT_BRIEF.md for why
 // we still gate this behind a shooter typing in *their own* number rather
 // than exposing an open lookup: NSSA doesn't enforce that boundary, we do.
+// Enforced two ways: /connect requires a logged-in account (see
+// app/connect/actions.ts), and a given NSSA number, once claimed by a
+// user_id, can't be re-imported by a different account.
 //
 // Known limitations (not built yet, deliberately out of scope for v1):
 // - Only pulls the current/default shoot year; historical years are
@@ -298,14 +301,24 @@ export interface ImportSummary {
   resultsImported: number;
 }
 
-export async function importShooterFromNssa(memberId: string): Promise<ImportSummary> {
+export async function importShooterFromNssa(memberId: string, userId: string): Promise<ImportSummary> {
   const supabase = createServerClient();
+
+  const { data: existingShooter } = await supabase
+    .from('shooters')
+    .select('user_id')
+    .eq('nssa_nsca_number', memberId)
+    .maybeSingle();
+  if (existingShooter?.user_id && existingShooter.user_id !== userId) {
+    throw new Error('This NSSA number is already connected to another account.');
+  }
+
   const history = await fetchMemberHistory(memberId);
 
   const { data: shooter, error: shooterError } = await supabase
     .from('shooters')
     .upsert(
-      { nssa_nsca_number: memberId, full_name: history.fullName },
+      { nssa_nsca_number: memberId, full_name: history.fullName, user_id: userId },
       { onConflict: 'nssa_nsca_number' }
     )
     .select('shooter_id')

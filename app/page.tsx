@@ -1,10 +1,21 @@
-export default function Home() {
+import { createAuthServerClient } from '@/lib/supabase-auth-server';
+
+export default async function Home() {
+  const supabase = createAuthServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <main style={{ fontFamily: 'sans-serif', padding: '48px' }}>
       <h1>The Score Book</h1>
       <p>Starter scaffold — first build milestone: get one shooter's data rendering at /profile/[shooterId].</p>
       <p>
-        <a href="/connect">Connect your NSSA account →</a>
+        {user ? (
+          <a href="/connect">Connect your NSSA account →</a>
+        ) : (
+          <a href="/login?next=/connect">Log in to connect your NSSA account →</a>
+        )}
       </p>
     </main>
   );
