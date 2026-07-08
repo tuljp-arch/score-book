@@ -114,7 +114,12 @@ async function fetchMemberHistoryPage(memberId: string, year?: string): Promise<
       .get();
     const [gaugeLabel, average, klass] = cells;
     if (!gaugeLabel || klass === 'N') return; // "N" = not shot in this discipline/gauge
-    const gauge = gaugeLabel === 'Doubles' ? 'doubles' : `${gaugeLabel}ga`;
+    // Must match the gauge naming used for rounds/results (see gaugeSlots
+    // below) — "410" there, not "410ga", or classifications and results/
+    // handicaps for the same gauge silently fail to line up (found via a
+    // shooter who actually had a real .410 classification: the handicap
+    // engine's key didn't match, so that badge showed no handicap at all).
+    const gauge = gaugeLabel === 'Doubles' ? 'doubles' : gaugeLabel === '410' ? '410' : `${gaugeLabel}ga`;
     classifications.push({ gauge, average: parseFloat(average), klass });
   });
 
