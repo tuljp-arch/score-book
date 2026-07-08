@@ -52,6 +52,9 @@ export default async function NavBar() {
         <a href="/events" style={{ color: '#EDE7D6' }}>
           Events
         </a>
+        <a href="/ladders" style={{ color: '#EDE7D6' }}>
+          Ladders
+        </a>
         <a href="/head-to-head" style={{ color: '#EDE7D6' }}>
           Head-to-Head
         </a>
