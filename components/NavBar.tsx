@@ -12,15 +12,13 @@ export default async function NavBar() {
   } = await supabase.auth.getUser();
 
   let myShooterId: string | null = null;
-  let debugInfo = '';
   if (user) {
-    const { data: shooter, error } = await supabase
+    const { data: shooter } = await supabase
       .from('shooters')
       .select('shooter_id')
       .eq('user_id', user.id)
       .maybeSingle();
     myShooterId = shooter?.shooter_id ?? null;
-    debugInfo = `uid:${user.id} err:${error?.message ?? 'none'}`;
   }
 
   return (
@@ -73,11 +71,6 @@ export default async function NavBar() {
           </a>
         )}
       </div>
-      {user && (
-        <div style={{ width: '100%', fontSize: 10, color: 'rgba(237,231,214,0.4)', wordBreak: 'break-all' }}>
-          DEBUG (temporary): {debugInfo}
-        </div>
-      )}
     </nav>
   );
 }
