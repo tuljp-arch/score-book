@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { createServerClient } from '@/lib/supabase-server';
 import { describeAwardCode, TEAM_NUMBER_WORDS } from '@/lib/award-codes';
+import { recalculateHandicaps } from '@/lib/handicap';
 
 // Imports one shooter's history from NSSA's public /Lookups/ pages
 // (mynssa.nssa-nsca.org) into our schema. These pages require no login —
@@ -533,6 +534,8 @@ export async function importShooterFromNssa(memberId: string, userId: string): P
       }
     }
   }
+
+  await recalculateHandicaps(shooterId);
 
   return {
     shooterId,

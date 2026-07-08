@@ -87,8 +87,22 @@ export default async function ProfilePage({ params }: { params: { shooterId: str
             {profile.classBadges.map((b, i) => (
               <div key={i} className={styles.badge}>
                 {b.gauge} <b>Class {b.klass}</b>
+                {b.handicap !== null && (
+                  <>
+                    {' · HC '}
+                    <b>
+                      {b.handicap.toFixed(1)}
+                      {b.handicapProvisional ? '*' : ''}
+                    </b>
+                  </>
+                )}
               </div>
             ))}
+            {profile.classBadges.some((b) => b.handicapProvisional) && (
+              <div style={{ fontSize: 11, opacity: 0.5, textAlign: 'right' }}>
+                *provisional — fewer than 10 rounds
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.statStrip}>

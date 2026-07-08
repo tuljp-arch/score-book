@@ -99,7 +99,7 @@ export interface ProfileData {
   season: string;
   clubName: string | null;
   clubLocation: string | null;
-  classBadges: { gauge: string; klass: string }[];
+  classBadges: { gauge: string; klass: string; handicap: number | null; handicapProvisional: boolean }[];
   medals: Medal[];
   statStrip: { num: string; label: string }[];
   trophyShelf: TrophyCard[];
@@ -159,6 +159,11 @@ export async function getProfileData(shooterId: string): Promise<ProfileData | n
   const { data: classifications } = await supabase
     .from('classifications')
     .select('discipline, gauge, class, five_event_average')
+    .eq('shooter_id', shooterId);
+
+  const { data: handicaps } = await supabase
+    .from('shooter_handicaps')
+    .select('gauge, handicap, is_provisional')
     .eq('shooter_id', shooterId);
 
   const { data: results } = await supabase
@@ -457,6 +462,7 @@ export async function getProfileData(shooterId: string): Promise<ProfileData | n
   }
 
   const classBadges = [...classificationRows].sort((a, b) => parseInt(a.gauge) - parseInt(b.gauge));
+  const handicapByGauge = new Map((handicaps ?? []).map((h) => [h.gauge, h]));
 
   return {
     fullName: shooter.full_name,
@@ -466,7 +472,15 @@ export async function getProfileData(shooterId: string): Promise<ProfileData | n
     season: `${seasonYear} Season`,
     clubName: shooter.home_club?.name ?? null,
     clubLocation: shooter.home_club?.location ?? null,
-    classBadges: classBadges.map((c) => ({ gauge: c.gauge, klass: c.class })),
+    classBadges: classBadges.map((c) => {
+      const h = handicapByGauge.get(c.gauge);
+      return {
+        gauge: c.gauge,
+        klass: c.class,
+        handicap: h ? h.handicap : null,
+        handicapProvisional: h ? h.is_provisional : false,
+      };
+    }),
     medals,
     statStrip,
     trophyShelf,
