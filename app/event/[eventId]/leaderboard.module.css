@@ -1,14 +1,4 @@
 .page {
-  --parchment: #EDE7D6;
-  --card: #F6F2E7;
-  --ink: #22281C;
-  --clay: #BD5A2C;
-  --brass: #9C8552;
-  --brass-light: #C7B384;
-  --field: #37402E;
-  --field-deep: #262E1E;
-  --line: rgba(34, 40, 28, 0.14);
-
   background: var(--parchment);
   color: var(--ink);
   font-family: var(--font-inter), sans-serif;

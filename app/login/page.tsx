@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createAuthServerClient } from '@/lib/supabase-auth-server';
+import ui from '@/components/ui.module.css';
 import LoginForm from './LoginForm';
 
 export default async function LoginPage({
@@ -16,10 +17,18 @@ export default async function LoginPage({
   if (user) redirect(next);
 
   return (
-    <main style={{ fontFamily: 'sans-serif', padding: '48px', maxWidth: 480, margin: '0 auto' }}>
-      <h1>Log in</h1>
-      {searchParams.error && <p style={{ color: 'crimson' }}>{searchParams.error}</p>}
-      <LoginForm next={next} />
-    </main>
+    <div className={ui.page}>
+      <div className={ui.hero}>
+        <div className={ui.eyebrow}>Members only</div>
+        <h1>Log in</h1>
+        <p>No password to remember — we&apos;ll email you a one-time link.</p>
+      </div>
+      <div className={ui.wrap}>
+        <div className={ui.card}>
+          {searchParams.error && <p className={ui.error}>{searchParams.error}</p>}
+          <LoginForm next={next} />
+        </div>
+      </div>
+    </div>
   );
 }

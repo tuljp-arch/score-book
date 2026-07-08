@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createAuthServerClient } from '@/lib/supabase-auth-server';
+import ui from '@/components/ui.module.css';
 import { connectAccount, signOut } from './actions';
 
 export default async function ConnectPage({ searchParams }: { searchParams: { error?: string } }) {
@@ -10,32 +11,42 @@ export default async function ConnectPage({ searchParams }: { searchParams: { er
   if (!user) redirect('/login?next=/connect');
 
   return (
-    <main style={{ fontFamily: 'sans-serif', padding: '48px', maxWidth: 480, margin: '0 auto' }}>
-      <h1>Connect your NSSA account</h1>
-      <div style={{ marginBottom: 16 }}>
-        Logged in as {user.email}.{' '}
-        <form action={signOut} style={{ display: 'inline' }}>
-          <button type="submit" style={{ border: 'none', background: 'none', color: 'blue', cursor: 'pointer', padding: 0 }}>
-            Log out
-          </button>
-        </form>
+    <div className={ui.page}>
+      <div className={ui.hero}>
+        <div className={ui.eyebrow}>Unlock your trophy case</div>
+        <h1>Connect your NSSA account</h1>
+        <p>
+          Enter your NSSA member number and we&apos;ll pull in your real shoot history — every
+          score, class win, and championship — from mynssa.nssa-nsca.org.
+        </p>
       </div>
-      <p>
-        Enter your NSSA member number and we&apos;ll pull in your public shoot history from
-        mynssa.nssa-nsca.org — the same pages you can already see on your own record.
-      </p>
-      {searchParams.error && <p style={{ color: 'crimson' }}>{searchParams.error}</p>}
-      <form action={connectAccount}>
-        <input
-          name="memberId"
-          placeholder="e.g. 367202"
-          required
-          style={{ padding: 8, fontSize: 16, width: '100%', marginBottom: 12, boxSizing: 'border-box' }}
-        />
-        <button type="submit" style={{ padding: '8px 16px', fontSize: 16 }}>
-          Connect
-        </button>
-      </form>
-    </main>
+      <div className={ui.wrap}>
+        <div className={ui.card}>
+          <div style={{ marginBottom: 20, fontSize: 13.5, color: 'rgba(34,40,28,0.6)' }}>
+            Logged in as {user.email}.{' '}
+            <form action={signOut} style={{ display: 'inline' }}>
+              <button
+                type="submit"
+                style={{ border: 'none', background: 'none', color: 'var(--clay)', cursor: 'pointer', padding: 0, font: 'inherit' }}
+              >
+                Log out
+              </button>
+            </form>
+          </div>
+
+          {searchParams.error && <p className={ui.error}>{searchParams.error}</p>}
+
+          <form action={connectAccount}>
+            <label className={ui.label} htmlFor="memberId">
+              NSSA Member Number
+            </label>
+            <input id="memberId" name="memberId" placeholder="e.g. 367202" required className={ui.input} />
+            <button type="submit" className={ui.button}>
+              Connect
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,5 @@
 import { getShooterOptions } from '@/lib/head-to-head';
+import ui from '@/components/ui.module.css';
 import { goToHeadToHead } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -7,35 +8,46 @@ export default async function HeadToHeadPickerPage({ searchParams }: { searchPar
   const shooters = await getShooterOptions();
 
   return (
-    <main style={{ fontFamily: 'sans-serif', padding: '48px', maxWidth: 480, margin: '0 auto' }}>
-      <h1>Head-to-head</h1>
-      <p>Pick two shooters to see every event where both appear, scores side by side.</p>
-      {searchParams.error && <p style={{ color: 'crimson' }}>{searchParams.error}</p>}
-      <form action={goToHeadToHead}>
-        <label style={{ display: 'block', marginBottom: 4 }}>Shooter A</label>
-        <select name="shooterA" required style={{ padding: 8, fontSize: 16, width: '100%', marginBottom: 12 }}>
-          <option value="">Select a shooter…</option>
-          {shooters.map((s) => (
-            <option key={s.shooter_id} value={s.shooter_id}>
-              {s.full_name}
-            </option>
-          ))}
-        </select>
+    <div className={ui.page}>
+      <div className={ui.hero}>
+        <div className={ui.eyebrow}>Settle it</div>
+        <h1>Head-to-head</h1>
+        <p>Pick two shooters to see every event where both appear, scores side by side.</p>
+      </div>
+      <div className={ui.wrap}>
+        <div className={ui.card}>
+          {searchParams.error && <p className={ui.error}>{searchParams.error}</p>}
+          <form action={goToHeadToHead}>
+            <label className={ui.label} htmlFor="shooterA">
+              Shooter A
+            </label>
+            <select id="shooterA" name="shooterA" required className={ui.select}>
+              <option value="">Select a shooter…</option>
+              {shooters.map((s) => (
+                <option key={s.shooter_id} value={s.shooter_id}>
+                  {s.full_name}
+                </option>
+              ))}
+            </select>
 
-        <label style={{ display: 'block', marginBottom: 4 }}>Shooter B</label>
-        <select name="shooterB" required style={{ padding: 8, fontSize: 16, width: '100%', marginBottom: 12 }}>
-          <option value="">Select a shooter…</option>
-          {shooters.map((s) => (
-            <option key={s.shooter_id} value={s.shooter_id}>
-              {s.full_name}
-            </option>
-          ))}
-        </select>
+            <label className={ui.label} htmlFor="shooterB">
+              Shooter B
+            </label>
+            <select id="shooterB" name="shooterB" required className={ui.select}>
+              <option value="">Select a shooter…</option>
+              {shooters.map((s) => (
+                <option key={s.shooter_id} value={s.shooter_id}>
+                  {s.full_name}
+                </option>
+              ))}
+            </select>
 
-        <button type="submit" style={{ padding: '8px 16px', fontSize: 16 }}>
-          Compare
-        </button>
-      </form>
-    </main>
+            <button type="submit" className={ui.button}>
+              Compare
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

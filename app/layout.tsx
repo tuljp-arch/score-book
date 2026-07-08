@@ -1,5 +1,6 @@
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google';
 import NavBar from '@/components/NavBar';
+import './theme.css';
 
 export const metadata = {
   title: 'The Score Book',

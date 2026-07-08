@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase';
+import ui from '@/components/ui.module.css';
 
 export default function LoginForm({ next }: { next: string }) {
   const [email, setEmail] = useState('');
@@ -25,24 +26,28 @@ export default function LoginForm({ next }: { next: string }) {
   }
 
   if (status === 'sent') {
-    return <p>Check {email} for a magic link — click it to finish logging in.</p>;
+    return <p className={ui.helpText}>Check {email} for a magic link — click it to finish logging in.</p>;
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <p>Enter your email and we&apos;ll send you a magic link — no password needed.</p>
+      <p className={ui.helpText}>Enter your email and we&apos;ll send you a magic link — no password needed.</p>
+      <label className={ui.label} htmlFor="email">
+        Email
+      </label>
       <input
+        id="email"
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@example.com"
         required
-        style={{ padding: 8, fontSize: 16, width: '100%', marginBottom: 12, boxSizing: 'border-box' }}
+        className={ui.input}
       />
-      <button type="submit" disabled={status === 'sending'} style={{ padding: '8px 16px', fontSize: 16 }}>
+      <button type="submit" disabled={status === 'sending'} className={ui.button}>
         {status === 'sending' ? 'Sending…' : 'Send magic link'}
       </button>
-      {error && <p style={{ color: 'crimson' }}>{error}</p>}
+      {error && <p className={ui.error}>{error}</p>}
     </form>
   );
 }

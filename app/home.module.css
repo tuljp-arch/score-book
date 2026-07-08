@@ -1,0 +1,47 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.linkCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 22px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  display: block;
+  box-shadow: 0 12px 28px -14px rgba(34, 40, 28, 0.25);
+}
+.linkCard:hover { border-color: var(--brass); }
+
+.linkCard .eyebrow {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 8px;
+}
+
+.linkCard h3 {
+  font-family: var(--font-fraunces), serif;
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.linkCard p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(34, 40, 28, 0.6);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .cards { grid-template-columns: 1fr; }
+}

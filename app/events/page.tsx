@@ -1,4 +1,5 @@
 import { getEventOptions } from '@/lib/event-leaderboard';
+import ui from '@/components/ui.module.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,21 +13,26 @@ export default async function EventsPage() {
   const events = await getEventOptions();
 
   return (
-    <main style={{ fontFamily: 'sans-serif', padding: '48px', maxWidth: 560, margin: '0 auto' }}>
-      <h1>Events</h1>
-      <p>Every registered event with results on the books.</p>
-      {events.length === 0 ? (
-        <p>No events yet.</p>
-      ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {events.map((e) => (
-            <li key={e.event_id} style={{ padding: '10px 0', borderBottom: '1px solid #ddd' }}>
-              <a href={`/event/${e.event_id}`}>{e.name}</a>
-              <span style={{ color: '#666', marginLeft: 8 }}>{formatDate(e.start_date)}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
+    <div className={ui.page}>
+      <div className={ui.hero}>
+        <div className={ui.eyebrow}>The season so far</div>
+        <h1>Events</h1>
+        <p>Every registered event with results on the books.</p>
+      </div>
+      <div className={ui.wrap}>
+        {events.length === 0 ? (
+          <div className={ui.emptyState}>No events yet.</div>
+        ) : (
+          <div className={ui.listCard}>
+            {events.map((e) => (
+              <a key={e.event_id} href={`/event/${e.event_id}`} className={ui.listRow}>
+                <span className={ui.listRowTitle}>{e.name}</span>
+                <span className={ui.listRowMeta}>{formatDate(e.start_date)}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
