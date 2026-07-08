@@ -3,6 +3,13 @@ import { createAuthServerClient } from '@/lib/supabase-auth-server';
 import ui from '@/components/ui.module.css';
 import { connectAccount, signOut } from './actions';
 
+// The NSSA import can mean many sequential requests to a slow legacy
+// server (multi-year lookback, per-round leaderboard fetches) — ask
+// Vercel for the most execution time it'll give a serverless function,
+// since the default is too short for a shooter with a real multi-year
+// history. Actions inherit the maxDuration of the page that invokes them.
+export const maxDuration = 60;
+
 export default async function ConnectPage({ searchParams }: { searchParams: { error?: string } }) {
   const supabase = createAuthServerClient();
   const {
