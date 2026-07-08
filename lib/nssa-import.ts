@@ -88,10 +88,15 @@ function formatUsDate(iso: string | null): string {
 }
 
 async function fetchMemberHistoryPage(memberId: string, year?: string): Promise<MemberHistoryPage> {
-  const url = year
-    ? `${BASE}/Lookups/NSSA_Member_History.php?id=${memberId}&y=${year}`
-    : `${BASE}/Lookups/NSSA_Member_History.php?id=${memberId}`;
-  const html = await fetchText(url);
+  // Switching years is a POST against the base URL (the page's own `chgyr`
+  // form posts `id` + `year`) — a GET query param like `?y=2024` is
+  // silently ignored by the server, which just returns the current year
+  // again. Confirmed by comparing both against real data: the GET form
+  // always came back "Shoot Year 2026" regardless of the year requested.
+  const url = `${BASE}/Lookups/NSSA_Member_History.php`;
+  const html = year
+    ? await fetchText(url, new URLSearchParams({ id: memberId, year }))
+    : await fetchText(`${url}?id=${memberId}`);
   const $ = cheerio.load(html);
 
   const headerText = $('b').first().text();
