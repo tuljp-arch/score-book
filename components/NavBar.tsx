@@ -11,6 +11,16 @@ export default async function NavBar() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  let myShooterId: string | null = null;
+  if (user) {
+    const { data: shooter } = await supabase
+      .from('shooters')
+      .select('shooter_id')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    myShooterId = shooter?.shooter_id ?? null;
+  }
+
   return (
     <nav
       style={{
@@ -34,6 +44,11 @@ export default async function NavBar() {
         The Score Book
       </a>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+        {myShooterId && (
+          <a href={`/profile/${myShooterId}`} style={{ color: '#EDE7D6' }}>
+            My Profile
+          </a>
+        )}
         <a href="/events" style={{ color: '#EDE7D6' }}>
           Events
         </a>
