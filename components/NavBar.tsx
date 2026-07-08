@@ -55,6 +55,11 @@ export default async function NavBar() {
         <a href="/head-to-head" style={{ color: '#EDE7D6' }}>
           Head-to-Head
         </a>
+        {myShooterId && (
+          <a href="/rivals" style={{ color: '#EDE7D6' }}>
+            Rivals
+          </a>
+        )}
         <a href="/connect" style={{ color: '#EDE7D6' }}>
           Connect
         </a>

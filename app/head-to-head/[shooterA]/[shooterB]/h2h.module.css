@@ -60,11 +60,41 @@
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 16px 20px;
+}
+
+.mainRow {
   display: grid;
   grid-template-columns: 1fr auto auto auto;
   align-items: center;
   gap: 16px;
 }
+
+.netRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+
+.netLabel {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brass);
+}
+
+.netScore {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 15px;
+  text-align: center;
+  min-width: 64px;
+  color: rgba(34, 40, 28, 0.7);
+}
+.netScore.winner { color: var(--clay); font-weight: 600; }
 
 .eventInfo .eventName { font-family: var(--font-fraunces), serif; font-size: 16px; font-weight: 500; }
 .eventInfo .eventMeta {
