@@ -465,16 +465,38 @@ export async function importShooterFromNssa(memberId: string, userId: string): P
 
   const history = await fetchMemberHistory(memberId);
 
-  const { data: shooter, error: shooterError } = await supabase
+  // A user may already have a bare shooter row from claiming a casual-round
+  // invite before ever connecting NSSA (see lib/casual.ts) — update that
+  // same row in place rather than upserting by nssa_nsca_number, which
+  // would create a second row for the same person the first time they
+  // connect. (This is exactly the bug class that made "My Profile"/"Rivals"
+  // vanish for a real user earlier — two shooter rows under one user_id.)
+  const { data: myShooter } = await supabase
     .from('shooters')
-    .upsert(
-      { nssa_nsca_number: memberId, full_name: history.fullName, user_id: userId },
-      { onConflict: 'nssa_nsca_number' }
-    )
     .select('shooter_id')
-    .single();
-  if (shooterError) throw shooterError;
-  const shooterId = shooter.shooter_id as string;
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  let shooterId: string;
+  if (myShooter) {
+    const { error } = await supabase
+      .from('shooters')
+      .update({ nssa_nsca_number: memberId, full_name: history.fullName })
+      .eq('shooter_id', myShooter.shooter_id);
+    if (error) throw error;
+    shooterId = myShooter.shooter_id;
+  } else {
+    const { data: shooter, error: shooterError } = await supabase
+      .from('shooters')
+      .upsert(
+        { nssa_nsca_number: memberId, full_name: history.fullName, user_id: userId },
+        { onConflict: 'nssa_nsca_number' }
+      )
+      .select('shooter_id')
+      .single();
+    if (shooterError) throw shooterError;
+    shooterId = shooter.shooter_id as string;
+  }
 
   await supabase.from('classifications').delete().eq('shooter_id', shooterId).eq('discipline', 'skeet');
   if (history.classifications.length > 0) {
