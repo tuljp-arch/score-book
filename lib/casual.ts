@@ -42,6 +42,8 @@ export interface CasualParticipant {
   } | null;
 }
 
+export type CasualEventFormat = 'reported' | 'bracket';
+
 export interface CasualEventDetail {
   casualEventId: string;
   name: string;
@@ -50,6 +52,7 @@ export interface CasualEventDetail {
   eventDate: string;
   discipline: string | null;
   gauge: string | null;
+  format: CasualEventFormat;
   participants: CasualParticipant[];
 }
 
@@ -82,12 +85,13 @@ export async function createCasualEvent(
   name: string,
   eventDate: string,
   discipline: string,
-  gauge: string
+  gauge: string,
+  format: CasualEventFormat = 'reported'
 ): Promise<string> {
   const supabase = createServerClient();
   const { data, error } = await supabase
     .from('casual_events')
-    .insert({ name, organizer_shooter_id: organizerShooterId, event_date: eventDate, discipline, gauge })
+    .insert({ name, organizer_shooter_id: organizerShooterId, event_date: eventDate, discipline, gauge, format })
     .select('casual_event_id')
     .single();
   if (error) throw error;
@@ -109,6 +113,20 @@ export async function addParticipant(
   });
   if (error) throw error;
   return { claimToken };
+}
+
+export async function addExistingParticipant(casualEventId: string, shooterId: string): Promise<{ casualParticipantId: string }> {
+  const supabase = createServerClient();
+  const { data, error } = await supabase
+    .from('casual_participants')
+    .insert({ casual_event_id: casualEventId, shooter_id: shooterId })
+    .select('casual_participant_id')
+    .single();
+  if (error) {
+    if (error.code === '23505') throw new Error('That shooter is already in this round.');
+    throw error;
+  }
+  return { casualParticipantId: data.casual_participant_id };
 }
 
 export async function recordResult(casualParticipantId: string, score: number, possible: number, notes?: string): Promise<void> {
@@ -178,7 +196,7 @@ export async function getCasualEvent(casualEventId: string, viewerShooterId: str
 
   const { data: event } = await supabase
     .from('casual_events')
-    .select('casual_event_id, name, organizer_shooter_id, event_date, discipline, gauge, shooters ( full_name )')
+    .select('casual_event_id, name, organizer_shooter_id, event_date, discipline, gauge, format, shooters ( full_name )')
     .eq('casual_event_id', casualEventId)
     .maybeSingle();
   if (!event) return null;
@@ -222,6 +240,7 @@ export async function getCasualEvent(casualEventId: string, viewerShooterId: str
     eventDate: event.event_date,
     discipline: event.discipline,
     gauge: event.gauge,
+    format: (event as unknown as { format: CasualEventFormat }).format,
     participants: (participants ?? []).map((p) => {
       const result = resultByParticipant.get(p.casual_participant_id);
       const isSelf = p.shooter_id === viewerShooterId;

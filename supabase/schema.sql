@@ -136,6 +136,7 @@ create table casual_events (
   event_date date not null,
   discipline text,
   gauge text,
+  format text not null default 'reported' check (format in ('reported', 'bracket')),
   created_at timestamptz not null default now()
 );
 
@@ -146,7 +147,8 @@ create table casual_participants (
   guest_name text,
   guest_phone text,
   claim_token text unique,
-  claimed_at timestamptz
+  claimed_at timestamptz,
+  unique (casual_event_id, shooter_id)
 );
 
 create table casual_results (
@@ -169,7 +171,25 @@ create table casual_result_witnesses (
   unique (casual_result_id, witness_shooter_id)
 );
 
+create table casual_tournament_matches (
+  casual_tournament_match_id uuid primary key default gen_random_uuid(),
+  casual_event_id uuid references casual_events(casual_event_id) not null,
+  round_number int not null,
+  slot_position int not null, -- feeds match floor(slot_position/2) of round_number+1
+  participant_a_id uuid references casual_participants(casual_participant_id),
+  participant_b_id uuid references casual_participants(casual_participant_id),
+  score_a int,
+  score_b int,
+  possible int,
+  winner_participant_id uuid references casual_participants(casual_participant_id),
+  status text not null default 'waiting' check (status in ('waiting', 'ready', 'bye', 'reported')),
+  reported_at timestamptz,
+  created_at timestamptz not null default now(),
+  unique (casual_event_id, round_number, slot_position)
+);
+
 create index idx_challenge_entries_challenge on challenge_entries(challenge_id);
 create index idx_casual_participants_event on casual_participants(casual_event_id);
 create index idx_casual_results_event on casual_results(casual_event_id);
 create index idx_casual_result_witnesses_result on casual_result_witnesses(casual_result_id);
+create index idx_casual_tournament_matches_event on casual_tournament_matches(casual_event_id);

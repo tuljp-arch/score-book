@@ -73,6 +73,11 @@ export default async function NavBar() {
             Casual
           </a>
         )}
+        {myShooterId && (
+          <a href="/casual/grudges" style={{ color: '#EDE7D6' }}>
+            Grudges
+          </a>
+        )}
         <a href="/connect" style={{ color: '#EDE7D6' }}>
           Connect
         </a>

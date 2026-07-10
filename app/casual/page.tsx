@@ -81,6 +81,14 @@ export default async function CasualPage({ searchParams }: { searchParams: { err
               ))}
             </select>
 
+            <label className={ui.label} htmlFor="format">
+              Format
+            </label>
+            <select id="format" name="format" defaultValue="reported" className={ui.select}>
+              <option value="reported">Reported scores</option>
+              <option value="bracket">Bracket tournament</option>
+            </select>
+
             <button type="submit" className={ui.button}>
               Create
             </button>
